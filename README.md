@@ -42,7 +42,7 @@ The model is based on the [Keras built-in model for ResNet-50](https://keras.io/
 Clone the `MAX-resnet` repository locally. In a terminal, run the following command:
 
 ```
-$ git clone https://github.com/IBM/MAX-resnet.git
+$ git clone https://github.com/IBM/MAX-ResNet-50.git
 ```
 
 Change directory into the repository base folder:
