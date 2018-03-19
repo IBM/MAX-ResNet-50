@@ -39,7 +39,7 @@ The model is based on the [Keras built-in model for ResNet-50](https://keras.io/
 
 ## 1. Build the Model
 
-Clone the `MAX-resnet` repository locally. In a terminal, run the following command:
+Clone this repository locally. In a terminal, run the following command:
 
 ```
 $ git clone https://github.com/IBM/MAX-ResNet-50.git
@@ -48,7 +48,7 @@ $ git clone https://github.com/IBM/MAX-ResNet-50.git
 Change directory into the repository base folder:
 
 ```
-$ cd MAX-resnet
+$ cd MAX-ResNet-50
 ```
 
 To build the docker image locally, run: 
