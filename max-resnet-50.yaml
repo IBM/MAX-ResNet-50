@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: max-resnet-50
+spec:
+  selector:
+    app: max-resnet-50
+  ports:
+  - port: 5000
+  type: NodePort
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: max-resnet-50
+  labels:
+    app: max-resnet-50
+spec:
+  selector:
+    matchLabels:
+      app: max-resnet-50
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: max-resnet-50
+    spec:
+      containers:
+      - name: max-resnet-50
+        image: codait/max-resnet-50:latest
+        ports:
+        - containerPort: 5000
