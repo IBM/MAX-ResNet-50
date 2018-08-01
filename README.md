@@ -121,3 +121,7 @@ You should see a JSON response like that below:
 
 To run the Flask API app in debug mode, edit `config.py` to set `DEBUG = True` under the application settings. You will then need to rebuild the docker image (see [step 1](#1-build-the-model)).
 
+## 5. Cleanup
+
+To stop the Docker container, type `CTRL` + `C` in your terminal.
+
