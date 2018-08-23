@@ -11,7 +11,7 @@ install:
 - sleep 10 # container needs a few seconds before it will accept requests
 
 before_script:
-- pip install pytest pycurl
+- pip install pytest requests
 
 script:
 - pytest tests/test.py
