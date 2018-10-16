@@ -1,0 +1,1 @@
+5d88ab28b25a3dcfadc647c64650754c  assets/resnet50.h5

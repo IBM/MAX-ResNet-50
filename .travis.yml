@@ -8,7 +8,7 @@ services:
 install:
 - docker build -t max-resnet-50 .
 - docker run -it -d -p 5000:5000 max-resnet-50
-- sleep 10 # container needs a few seconds before it will accept requests
+- sleep 30 # container needs a few seconds before it will accept requests
 
 before_script:
 - pip install pytest requests
