@@ -1,6 +1,6 @@
 # Application settings
 
-# Flask settings 
+# Flask settings
 DEBUG = False
 
 # Flask-restplus settings
@@ -14,7 +14,7 @@ API_VERSION = '0.1'
 
 # Model settings
 models = {
-	'resnet50': {'size': (224, 224), 'license': 'MIT'}
+    'resnet50': {'size': (224, 224), 'license': 'MIT'}
 }
 
 # default model

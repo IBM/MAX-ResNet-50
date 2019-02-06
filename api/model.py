@@ -1,6 +1,5 @@
 from flask_restplus import Namespace, Resource, fields
 from werkzeug.datastructures import FileStorage
-
 from config import MODEL_META_DATA
 from core.backend import ModelWrapper, read_image
 
@@ -55,7 +54,7 @@ class Predict(Resource):
         image_data = args['image'].read()
         image = read_image(image_data)
         preds = self.model_wrapper.predict(image)
-        
+
         label_preds = [{'label_id': p[0], 'label': p[1], 'probability': p[2]} for p in [x for x in preds]]
         result['predictions'] = label_preds
         result['status'] = 'ok'
