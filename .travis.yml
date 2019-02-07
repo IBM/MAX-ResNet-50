@@ -8,10 +8,10 @@ services:
 install:
   - docker build -t max-resnet-50 .
   - docker run -it -d -p 5000:5000 max-resnet-50
+  - pip install pytest requests flake8
 
 before_script:
   - flake8 . --max-line-length=127
-  - pip install pytest requests
   - sleep 30 # container needs a few seconds before it will accept requests
 
 script:
