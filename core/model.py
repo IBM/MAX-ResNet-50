@@ -6,12 +6,14 @@ from keras import models
 from keras.preprocessing.image import img_to_array
 from keras.applications import imagenet_utils
 import numpy as np
+from maxfw.model import MAXModelWrapper
 from config import DEFAULT_MODEL_PATH
+
 
 logger = logging.getLogger()
 
 
-class ModelWrapper(object):
+class ModelWrapper(MAXModelWrapper):
     """Model wrapper for Keras models"""
 
     MODEL_NAME = 'resnet50'
@@ -47,6 +49,4 @@ class ModelWrapper(object):
         return imagenet_utils.decode_predictions(preds)[0]
 
     def _predict(self, x):
-        x = self._pre_process(x)
-        preds = self.model.predict(x)
-        return self._post_process(preds)
+        return self.model.predict(x)
