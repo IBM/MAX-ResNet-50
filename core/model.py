@@ -15,10 +15,9 @@ class ModelWrapper(object):
     """Model wrapper for Keras models"""
 
     MODEL_NAME = 'resnet50'
-
     MODEL_INPUT_IMG_SIZE = (224, 224)
     MODEL_LICENSE = 'MIT'
-
+    MODEL_MODE = 'caffe'
     MODEL_META_DATA = {
         'id': '{}-keras-imagenet'.format(MODEL_NAME.lower()),
         'name': '{} Keras Model'.format(MODEL_NAME),
@@ -38,16 +37,16 @@ class ModelWrapper(object):
     def read_image(self, image_data):
         return Image.open(io.BytesIO(image_data))
 
-    def _pre_process(self, image, target, mode='tf'):
-        image = image.resize(target)
+    def _pre_process(self, image):
+        image = image.resize(self.MODEL_INPUT_IMG_SIZE)
         image = img_to_array(image)
         image = np.expand_dims(image, axis=0)
-        return imagenet_utils.preprocess_input(image, mode=mode)
+        return imagenet_utils.preprocess_input(image, mode=self.MODEL_MODE)
 
-    def _post_process_result(self, preds):
+    def _post_process(self, preds):
         return imagenet_utils.decode_predictions(preds)[0]
 
-    def predict(self, x):
-        x = self._pre_process(x, target=self.MODEL_INPUT_IMG_SIZE, mode='caffe')
+    def _predict(self, x):
+        x = self._pre_process(x)
         preds = self.model.predict(x)
-        return self._post_process_result(preds)
+        return self._post_process(preds)

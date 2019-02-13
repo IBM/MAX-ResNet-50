@@ -32,7 +32,7 @@ class ModelPredictAPI(PredictAPI):
         args = input_parser.parse_args()
         image_data = args['image'].read()
         image = self.model_wrapper.read_image(image_data)
-        preds = self.model_wrapper.predict(image)
+        preds = self.model_wrapper._predict(image)
 
         label_preds = [{'label_id': p[0], 'label': p[1], 'probability': p[2]} for p in [x for x in preds]]
         result['predictions'] = label_preds
