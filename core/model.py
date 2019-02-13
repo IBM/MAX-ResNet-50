@@ -25,7 +25,8 @@ class ModelWrapper(MAXModelWrapper):
         'name': '{} Keras Model'.format(MODEL_NAME),
         'description': '{} Keras model trained on ImageNet'.format(MODEL_NAME),
         'type': 'image_classification',
-        'license': '{}'.format(MODEL_LICENSE)
+        'license': '{}'.format(MODEL_LICENSE),
+        'source': 'https://developer.ibm.com/exchanges/models/all/max-resnet-50/'
     }
 
     def __init__(self, path=DEFAULT_MODEL_PATH):
