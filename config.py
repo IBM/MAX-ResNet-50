@@ -11,3 +11,5 @@ SWAGGER_UI_DOC_EXPANSION = 'none'
 API_TITLE = 'MAX ResNet 50'
 API_DESC = 'Identify objects in images using a first-generation deep residual network.'
 API_VERSION = '0.1'
+
+DEFAULT_MODEL_PATH = 'assets/resnet50.h5'

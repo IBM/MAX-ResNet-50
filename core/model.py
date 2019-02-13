@@ -1,11 +1,12 @@
+import io
+import logging
 from PIL import Image
 from keras.backend import clear_session
 from keras import models
 from keras.preprocessing.image import img_to_array
 from keras.applications import imagenet_utils
-import io
 import numpy as np
-import logging
+from config import DEFAULT_MODEL_PATH
 
 logger = logging.getLogger()
 
@@ -14,7 +15,7 @@ class ModelWrapper(object):
     """Model wrapper for Keras models"""
 
     MODEL_NAME = 'resnet50'
-    DEFAULT_MODEL_PATH = 'assets/{}.h5'.format(MODEL_NAME)
+
     MODEL_INPUT_IMG_SIZE = (224, 224)
     MODEL_LICENSE = 'MIT'
 
