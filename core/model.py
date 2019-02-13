@@ -38,7 +38,7 @@ class ModelWrapper(object):
     def read_image(self, image_data):
         return Image.open(io.BytesIO(image_data))
 
-    def _preprocess_image(self, image, target, mode='tf'):
+    def _pre_process(self, image, target, mode='tf'):
         image = image.resize(target)
         image = img_to_array(image)
         image = np.expand_dims(image, axis=0)
@@ -48,6 +48,6 @@ class ModelWrapper(object):
         return imagenet_utils.decode_predictions(preds)[0]
 
     def predict(self, x):
-        x = self._preprocess_image(x, target=self.MODEL_INPUT_IMG_SIZE, mode='caffe')
+        x = self._pre_process(x, target=self.MODEL_INPUT_IMG_SIZE, mode='caffe')
         preds = self.model.predict(x)
         return self._post_process_result(preds)
