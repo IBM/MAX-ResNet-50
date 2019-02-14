@@ -6,6 +6,7 @@ from keras import models
 from keras.preprocessing.image import img_to_array
 from keras.applications import imagenet_utils
 import numpy as np
+from werkzeug.exceptions import BadRequest
 from maxfw.model import MAXModelWrapper
 from config import DEFAULT_MODEL_PATH
 
@@ -38,7 +39,13 @@ class ModelWrapper(MAXModelWrapper):
         logger.info('Loaded model: {}'.format(self.model.name))
 
     def read_image(self, image_data):
-        return Image.open(io.BytesIO(image_data))
+        try:
+            image = Image.open(io.BytesIO(image_data))
+            return image
+        except IOError:
+            e = BadRequest()
+            e.data = {'status': 'error', 'message': 'Unable to load image file'}
+            raise e
 
     def _pre_process(self, image):
         image = image.resize(self.MODEL_INPUT_IMG_SIZE)
