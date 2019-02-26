@@ -44,7 +44,7 @@ class ModelWrapper(MAXModelWrapper):
             return image
         except IOError:
             e = BadRequest()
-            e.data = {'status': 'error', 'message': 'Unable to load image file'}
+            e.data = {'status': 'error', 'message': 'The input is not a valid image.'}
             raise e
 
     def _pre_process(self, image):
