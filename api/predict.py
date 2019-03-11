@@ -4,16 +4,20 @@ from maxfw.core import MAX_API, PredictAPI
 from core.model import ModelWrapper
 
 input_parser = MAX_API.parser()
-input_parser.add_argument('image', type=FileStorage, location='files', required=True, help="An image file")
+input_parser.add_argument('image', type=FileStorage, location='files',
+                          required=True, help='An image file (encoded as JPEG, PNG or TIFF)')
 
 label_prediction = MAX_API.model('LabelPrediction', {
-    'label_id': fields.String(required=False, description='Class label identifier'),
-    'label': fields.String(required=True, description='Class label'),
-    'probability': fields.Float(required=True)
+    'label_id': fields.String(required=False, description='Class label identifier',
+                              example='n07697313'),
+    'label': fields.String(required=True, description='Class label',
+                           example='cheeseburger'),
+    'probability': fields.Float(required=True, description='Predicted probability for class label',
+                                example=0.95)
 })
 
 predict_response = MAX_API.model('ModelPredictResponse', {
-    'status': fields.String(required=True, description='Response status message'),
+    'status': fields.String(required=True, description='Response status message', example='ok'),
     'predictions': fields.List(fields.Nested(label_prediction), description='Predicted labels and probabilities')
 })
 

@@ -31,14 +31,7 @@ def test_metadata():
     assert metadata['license'] == 'MIT'
 
 
-def test_predict():
-    model_endpoint = 'http://localhost:5000/model/predict'
-    file_path = 'assets/burger.jpg'
-
-    with open(file_path, 'rb') as file:
-        file_form = {'image': (file_path, file, 'image/jpeg')}
-        r = requests.post(url=model_endpoint, files=file_form)
-
+def _check_response(r):
     assert r.status_code == 200
 
     response = r.json()
@@ -48,8 +41,21 @@ def test_predict():
     assert response['predictions'][0]['label'] == 'cheeseburger'
     assert response['predictions'][0]['probability'] > 0.75
 
+
+def test_predict():
+    model_endpoint = 'http://localhost:5000/model/predict'
+    formats = ['jpg', 'png']
+    file_path = 'tests/burger.{}'
+
+    for f in formats:
+        p = file_path.format(f)
+        with open(p, 'rb') as file:
+            file_form = {'image': (p, file, 'image/{}'.format(f))}
+            r = requests.post(url=model_endpoint, files=file_form)
+        _check_response(r)
+
     # Test invalid
-    file_path = 'assets/README.md'
+    file_path = 'README.md'
 
     with open(file_path, 'rb') as file:
         file_form = {'image': (file_path, file, 'image/jpeg')}
