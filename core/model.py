@@ -6,7 +6,6 @@ from keras import models
 from keras.preprocessing.image import img_to_array
 from keras.applications import imagenet_utils
 import numpy as np
-from werkzeug.exceptions import BadRequest
 from maxfw.model import MAXModelWrapper
 from config import DEFAULT_MODEL_PATH
 from flask import abort

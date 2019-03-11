@@ -30,6 +30,7 @@ def test_metadata():
     assert metadata['description'] == 'resnet50 Keras model trained on ImageNet'
     assert metadata['license'] == 'MIT'
 
+
 def _check_response(r):
     assert r.status_code == 200
 
@@ -39,6 +40,7 @@ def _check_response(r):
     assert response['predictions'][0]['label_id'] == 'n07697313'
     assert response['predictions'][0]['label'] == 'cheeseburger'
     assert response['predictions'][0]['probability'] > 0.75
+
 
 def test_predict():
     model_endpoint = 'http://localhost:5000/model/predict'

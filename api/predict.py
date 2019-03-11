@@ -5,15 +5,15 @@ from core.model import ModelWrapper
 
 input_parser = MAX_API.parser()
 input_parser.add_argument('image', type=FileStorage, location='files',
-    required=True, help='An image file (encoded as JPEG, PNG or TIFF)')
+                          required=True, help='An image file (encoded as JPEG, PNG or TIFF)')
 
 label_prediction = MAX_API.model('LabelPrediction', {
     'label_id': fields.String(required=False, description='Class label identifier',
-        example='n07697313'),
+                              example='n07697313'),
     'label': fields.String(required=True, description='Class label',
-        example='cheeseburger'),
+                           example='cheeseburger'),
     'probability': fields.Float(required=True, description='Predicted probability for class label',
-        example=0.95)
+                                example=0.95)
 })
 
 predict_response = MAX_API.model('ModelPredictResponse', {
