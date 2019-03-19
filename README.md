@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/IBM/MAX-ResNet-50.svg?branch=master)](https://travis-ci.com/IBM/MAX-ResNet-50) [![Website Status](https://img.shields.io/website/http/max-resnet-50.max.us-south.containers.appdomain.cloud/swagger.json.svg?label=api+demo)](http://max-resnet-50.max.us-south.containers.appdomain.cloud/)
+
 # IBM Code Model Asset Exchange: ResNet-50 Image Classifier
 
 This repository contains code to instantiate and deploy an image classification model. This model recognizes the 1000 different classes of objects in the [ImageNet 2012 Large Scale Visual Recognition Challenge](http://www.image-net.org/challenges/LSVRC/2012/). The model consists of a deep convolutional net using the ResNet-50 architecture that was trained on the ImageNet-2012 data set. The input to the model is a 224x224 image, and the output is a list of estimated class probilities.
