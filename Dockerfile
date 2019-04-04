@@ -1,10 +1,12 @@
-FROM codait/max-base:v1.1.0
+FROM codait/max-base:v1.1.1
 
-ARG model_bucket=http://max-assets.s3-api.us-geo.objectstorage.softlayer.net/keras
-ARG model_file=resnet50.h5
+ARG model_bucket=http://max-assets.s3.us.cloud-object-storage.appdomain.cloud/resnet-50/1.0
+ARG model_file=assets.tar.gz
 
 WORKDIR /workspace
 RUN wget -nv --show-progress --progress=bar:force:noscroll ${model_bucket}/${model_file} --output-document=/workspace/assets/${model_file}
+RUN tar -x -C assets/ -f assets/${model_file} -v && rm assets/${model_file}
+RUN mkdir -p ~/.keras/models && mv assets/imagenet_class_index.json ~/.keras/models/imagenet_class_index.json
 
 COPY requirements.txt /workspace
 RUN pip install -r requirements.txt
