@@ -12,7 +12,7 @@ def test_swagger():
 
     json = r.json()
     assert 'swagger' in json
-    assert json.get('info') and json.get('info').get('title') == 'MAX ResNet 50'
+    assert json.get('info') and json.get('info').get('title') == 'MAX Image Classifier - ResNet 50'
     assert json.get('info') and json.get('info').get('description') == 'Identify objects in images using a ' + \
                                                                        'first-generation deep residual network.'
 
