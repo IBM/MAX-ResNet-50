@@ -1,6 +1,6 @@
 FROM codait/max-base:v1.1.1
 
-ARG model_bucket=http://max-assets.s3.us.cloud-object-storage.appdomain.cloud/resnet-50/1.0
+ARG model_bucket=http://max-assets-prod.s3.us-south.cloud-object-storage.appdomain.cloud/max-resnet-50/1.0
 ARG model_file=assets.tar.gz
 
 WORKDIR /workspace
