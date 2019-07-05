@@ -25,7 +25,7 @@ The model is based on the [Keras built-in model for ResNet-50](https://keras.io/
 | This repository | [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) | [LICENSE](LICENSE) |
 | Model Weights | [MIT](https://opensource.org/licenses/MIT) | [Keras ResNet-50](https://keras.io/applications/#resnet50)|
 | Model Code (3rd party) | [MIT](https://opensource.org/licenses/MIT) | [Keras LICENSE](https://github.com/keras-team/keras/blob/master/LICENSE)|
-| Test assets | Various | [Asset README](assets/README.md) |
+| Test assets | Various | [Samples README](samples/README.md) |
 
 ## Pre-requisites:
 
@@ -114,7 +114,7 @@ Use the `model/predict` endpoint to load a test image (you can use one of the te
 You can also test it on the command line, for example:
 
 ```
-$ curl -F "image=@assets/coffee.jpg" -XPOST http://localhost:5000/model/predict
+$ curl -F "image=@samples/coffee.jpg" -XPOST http://localhost:5000/model/predict
 ```
 
 You should see a JSON response like that below:
