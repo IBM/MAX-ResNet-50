@@ -11,7 +11,7 @@ The model is based on the [Keras built-in model for ResNet-50](https://keras.io/
 ## Model Metadata
 | Domain | Application | Industry  | Framework | Training Data | Input Data Format |
 | ------------- | --------  | -------- | --------- | --------- | -------------- | 
-| Vision | Image Classification | General | Keras | [ImageNet](http://www.image-net.org/) | Image (RGB/HWC)| 
+| Vision | Image Classification | General | Keras | [ImageNet](http://www.image-net.org/) | Image (RGB/HWC)|
 
 ## References
 
@@ -93,7 +93,6 @@ $ docker build -t max-resnet-50 .
 ```
 
 All required model assets will be downloaded during the build process. _Note_ that currently this docker image is CPU only (we will add support for GPU images later).
-
 
 ### 2. Deploy the Model
 
