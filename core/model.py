@@ -80,7 +80,6 @@ class ModelWrapper(MAXModelWrapper):
                            data[str(preds_sorted_index[i])][1],
                            top_preds_prob[i]
                            ])
-        print(imagenet_utils.decode_predictions(preds)[0])
         return result
 
     def _predict(self, x):
