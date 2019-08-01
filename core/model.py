@@ -26,6 +26,7 @@ from maxfw.model import MAXModelWrapper
 from config import DEFAULT_MODEL_PATH
 from flask import abort
 import json
+import os
 
 
 logger = logging.getLogger()
@@ -50,10 +51,13 @@ class ModelWrapper(MAXModelWrapper):
     def __init__(self, path=DEFAULT_MODEL_PATH):
         logger.info('Loading model from: {}...'.format(path))
         clear_session()
-        self.model = models.load_model(path + 'resnet50.h5')
+        self.model = models.load_model(os.path.join(path,'resnet50.h5'))
         # this seems to be required to make Keras models play nicely with threads
         self.model._make_predict_function()
         logger.info('Loaded model: {}'.format(self.model.name))
+        with open(os.path.join(DEFAULT_MODEL_PATH,
+                  'imagenet_class_index.json')) as class_file:
+            self.classes = json.load(class_file)
 
     def read_image(self, image_data):
         try:
@@ -73,13 +77,10 @@ class ModelWrapper(MAXModelWrapper):
     def _post_process(self, preds):
         preds_sorted_index = preds[0].argsort()[-5:][::-1]
         top_preds_prob = preds[0][preds_sorted_index]
-        data = json.loads(open(DEFAULT_MODEL_PATH + 'imagenet_class_index.json').read())
-        result = []
-        for i in range(len(preds_sorted_index)):
-            result.append([data[str(preds_sorted_index[i])][0],
-                           data[str(preds_sorted_index[i])][1],
-                           top_preds_prob[i]
-                           ])
+        result = [[self.classes[str(preds_sorted_index[i])][0],
+                   self.classes[str(preds_sorted_index[i])][1],
+                   top_preds_prob[i]]
+                  for i in range(len(preds_sorted_index))]
         return result
 
     def _predict(self, x):
