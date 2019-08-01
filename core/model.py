@@ -51,7 +51,8 @@ class ModelWrapper(MAXModelWrapper):
     def __init__(self, path=DEFAULT_MODEL_PATH):
         logger.info('Loading model from: {}...'.format(path))
         clear_session()
-        self.model = models.load_model(os.path.join(path,'resnet50.h5'))
+        self.model = models.load_model(
+            os.path.join(path,'resnet50.h5'))
         # this seems to be required to make Keras models play nicely with threads
         self.model._make_predict_function()
         logger.info('Loaded model: {}'.format(self.model.name))
@@ -78,9 +79,8 @@ class ModelWrapper(MAXModelWrapper):
         preds_sorted_index = preds[0].argsort()[-5:][::-1]
         top_preds_prob = preds[0][preds_sorted_index]
         return [[self.classes[str(preds_sorted_index[i])][0],
-                   self.classes[str(preds_sorted_index[i])][1],
-                   top_preds_prob[i]]
-                  for i in range(len(preds_sorted_index))]
+                 self.classes[str(preds_sorted_index[i])][1],
+                 top_preds_prob[i]] for i in range(len(preds_sorted_index))]
 
     def _predict(self, x):
         return self.model.predict(x)
