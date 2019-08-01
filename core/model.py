@@ -77,11 +77,10 @@ class ModelWrapper(MAXModelWrapper):
     def _post_process(self, preds):
         preds_sorted_index = preds[0].argsort()[-5:][::-1]
         top_preds_prob = preds[0][preds_sorted_index]
-        result = [[self.classes[str(preds_sorted_index[i])][0],
+        return [[self.classes[str(preds_sorted_index[i])][0],
                    self.classes[str(preds_sorted_index[i])][1],
                    top_preds_prob[i]]
                   for i in range(len(preds_sorted_index))]
-        return result
 
     def _predict(self, x):
         return self.model.predict(x)
