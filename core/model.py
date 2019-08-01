@@ -52,7 +52,7 @@ class ModelWrapper(MAXModelWrapper):
         logger.info('Loading model from: {}...'.format(path))
         clear_session()
         self.model = models.load_model(
-            os.path.join(path,'resnet50.h5'))
+            os.path.join(path, 'resnet50.h5'))
         # this seems to be required to make Keras models play nicely with threads
         self.model._make_predict_function()
         logger.info('Loaded model: {}'.format(self.model.name))
