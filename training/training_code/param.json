@@ -1,0 +1,10 @@
+{
+  "optimizer": "Adam",
+  "loss": "categorical_crossentropy",
+  "metrics": {"0": "accuracy"},
+  "data_dir": "/Users/saishruthi.tn@ibm.com/Desktop/training_obj_detector/data",
+  "batch_size": 32,
+  "class_mode": "categorical",
+  "epoch": 5,
+  "result_dir": "/Users/saishruthi.tn@ibm.com/Desktop/training_obj_detector/result_ic"
+}
