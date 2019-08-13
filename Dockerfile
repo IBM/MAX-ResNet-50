@@ -21,8 +21,7 @@ ARG model_file=assets.tar.gz
 
 WORKDIR /workspace
 RUN wget -nv --show-progress --progress=bar:force:noscroll ${model_bucket}/${model_file} --output-document=assets/${model_file} && \
-  tar -x -C assets/ -f assets/${model_file} -v && rm assets/${model_file} && \
-  mkdir -p ~/.keras/models && mv assets/imagenet_class_index.json ~/.keras/models/imagenet_class_index.json
+  tar -x -C assets/ -f assets/${model_file} -v && rm assets/${model_file}
 
 COPY requirements.txt /workspace
 RUN pip install -r requirements.txt
