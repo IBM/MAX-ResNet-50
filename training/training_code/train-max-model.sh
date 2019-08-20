@@ -154,7 +154,8 @@ mkdir -p $TRAINING_STAGING_DIR
 if [ -d ${RESULT_DIR}/model ]; then
   mkdir -p ${TRAINING_STAGING_DIR}/keras/h5
   mkdir -p ${TRAINING_STAGING_DIR}/tensorflow/saved_model
-  cp ${RESULT_DIR}/model/image_class_model.h5 ${TRAINING_STAGING_DIR}/keras/h5
+  cp ${RESULT_DIR}/model/resnet50.h5 ${TRAINING_STAGING_DIR}/keras/h5
+  cp ${RESULT_DIR}/model/class_index.json ${TRAINING_STAGING_DIR}/keras/h5
   cp -r ${RESULT_DIR}/model/tf/. ${TRAINING_STAGING_DIR}/tensorflow/saved_model
 fi
 

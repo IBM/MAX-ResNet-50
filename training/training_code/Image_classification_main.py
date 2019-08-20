@@ -62,7 +62,7 @@ label_dict = {}
 for i in range(len(label_map)):
     label_dict[i] = label_map[i]
 
-with open('class_index.json', 'w') as f:
+with open(os.path.join(result_dir, 'model/class_index.json'), 'w') as f:
     json.dump(label_dict, f)
 
 # compile model
@@ -76,7 +76,7 @@ model.fit_generator(generator=train_generator,
                    steps_per_epoch=step_size_train,
                    epochs=param_data['epoch'])
 
-model.save(os.path.join(result_dir, 'model/image_class_model.h5'))
+model.save(os.path.join(result_dir, 'model/resnet50.h5'))
 
 builder = tf.saved_model.builder.SavedModelBuilder(os.path.join(result_dir, 'model/tf'))
 

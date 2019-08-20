@@ -1,2 +1,2 @@
 5d88ab28b25a3dcfadc647c64650754c  assets/resnet50.h5
-c2c37ea517e94d9795004a39431a14cb  /root/.keras/models/imagenet_class_index.json
+c2c37ea517e94d9795004a39431a14cb  assets/imagenet_class_index.json

@@ -18,11 +18,12 @@ FROM codait/max-base:v1.1.3
 
 ARG model_bucket=https://s3.us-south.cloud-object-storage.appdomain.cloud/max-assets-prod/max-resnet-50/1.0
 ARG model_file=assets.tar.gz
+ARG use_pre_trained_model=true
 
 WORKDIR /workspace
-RUN wget -nv --show-progress --progress=bar:force:noscroll ${model_bucket}/${model_file} --output-document=assets/${model_file} && \
-  tar -x -C assets/ -f assets/${model_file} -v && rm assets/${model_file} && \
-  mkdir -p ~/.keras/models && mv assets/imagenet_class_index.json ~/.keras/models/imagenet_class_index.json
+RUN if [ "$use_pre_trained_model" = "true" ] ; then\
+    wget -nv --show-progress --progress=bar:force:noscroll ${model_bucket}/${model_file} --output-document=assets/${model_file} && \
+    tar -x -C assets/ -f assets/${model_file} -v && rm assets/${model_file}; fi
 
 COPY requirements.txt /workspace
 RUN pip install -r requirements.txt
@@ -30,7 +31,12 @@ RUN pip install -r requirements.txt
 COPY . /workspace
 
 # check file integrity
-RUN md5sum -c md5sums.txt
+# RUN md5sum -c md5sums.txt
+
+RUN if [ "$use_pre_trained_model" = "false" ] ; then \
+      # rename the directory that contains the custom-trained model artifacts
+      mv /workspace/custom_assets/* /workspace/assets; \
+    fi
 
 EXPOSE 5000
 
