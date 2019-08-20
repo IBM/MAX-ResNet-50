@@ -57,7 +57,7 @@ class ModelWrapper(MAXModelWrapper):
         self.model._make_predict_function()
         logger.info('Loaded model: {}'.format(self.model.name))
         with open(os.path.join(DEFAULT_MODEL_PATH,
-                  'imagenet_class_index.json')) as class_file:
+                  'class_index.json')) as class_file:
             self.classes = json.load(class_file)
 
     def read_image(self, image_data):
