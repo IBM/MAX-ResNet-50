@@ -1,19 +1,28 @@
-## Train the Model with Your Own Data
+## How to Train Image Classification Model Using Your Own Data
 
-This document provides instructions to train the model on Watson Machine Learning, an offering of IBM Cloud. The instructions in this document assume that you already have an IBM Cloud account. If not, please create an [IBM Cloud](https://ibm.biz/Bdz2XM) account. 
-
-- [Prepare Data for Training](#prepare-data-for-training)
+- [Collect Data for Training](#collect-data-for-training)
 - [Train the Model](#train-the-model)
-- [Rebuild the Model Serving Microservice](#rebuild-the-model-serving-microservice)
+- [Rebuild the Model-Serving Microservice](#rebuild-the-model-serving-microservice)
 
-## Prepare Data for Training
 
-To prepare your data for training complete the steps listed in [data_preparation/README.md](data_preparation/README.md).
+## Collect Data for Training
+
+Collect RGB images encoded as jpeg or png containing objects that need to be classified. Make sure
+the training images have large variations in angle, resolution, lighting and background so that they generalize 
+well with the test data. Using 100s or 1000s of images would provide better results.
+
+Create folders equal to number of classes. Folder names should be same as the class names. For example if we need to
+classify dog and cat images, create two folders with names `dog` and `cat` and place `dog` and `cat` images in the 
+respective folders.
 
 ## Train the Model
 
+- [Install Local Prerequisites](#install-local-prerequisites)
+- [Run the Setup Script](#run-the-setup-script)
+- [Train the Model Using Watson Machine Learning](#train-the-model-using-watson-machine-learning)
+
 In this document `$MODEL_REPO_HOME_DIR` refers to the cloned MAX model repository directory, e.g.
-`/users/hi_there/MAX-Object-Detector`. 
+`/users/hi_there/MAX-Resnet50`. 
 
 ### Install Local Prerequisites
 
@@ -25,23 +34,36 @@ Open a terminal window, change dir into `$MODEL_REPO_HOME_DIR/training` and inst
    $ pip install -r requirements.txt
     ... 
    ```
-### Use Pre Trained Weights
-
-If you wish to perform transfer learning or resume from a previous checkpoint, place the checkpoint files in the `$MODEL_REPO_HOME_DIR/training/sample_training_data/initial_model/` folder. <Any other info about the nature of ckpt files or any specific requirements are listed here>.
-
-### Customize Model Specific Parameters
-
-<Any model specific changes which the user can make go here>
-
-For example: 
-
->If you wish to change training hyper-parameters like `num_iterations`, `learning_rate` etc, pass the 
->corresponding arguments to `$MODEL_REPO_HOME_DIR/training/training_code/training_command.sh`. Look for `#TODO`s on the file >which will guide you. You can also change the backbone/model type to either `full` (which uses the `xception_65` >architecture) or the faster `mobile`(which uses a `mobilenet_v2` architecture). 
-
+   
+To test the model training process, use data from `/sample_training_data` and skip data preparation step.
 
 ### Run the Setup Script
 
-The `wml_setup.py` script prepares your local environment and your IBM Cloud resources for model training.
+#### Purpose
+
+In order to run the model training script two sets of environment variables need to be defined:
+
+##### 1. Watson Machine Learning
+
+- ML_USERNAME
+- ML_PASSWORD
+- ML_ENV
+- ML_INSTANCE
+
+##### 2. Cloud Object Storage
+
+- AWS_ACCESS_KEY
+- AWS_SECRET_ACCESS_KEY
+
+The wml_setup.py script (among other things) ensures that these variables are properly defined 
+and YAML file is properly configured. 
+
+Input training data bucket, result bucket, local directory from where data will be uploaded and GPU 
+configuration are the details that will be updated in YAML file.
+
+The main menu options vary depending on which environment variables are set when wml_setup.py is run.
+
+#### Steps
 
 1. Locate the training configuration file. It is named `...-training-config.yaml`.
 
@@ -51,28 +73,47 @@ The `wml_setup.py` script prepares your local environment and your IBM Cloud res
      <...-training-config.yaml> 
    ```
 
-1. Configure your environment for model training. Run `wml_setup.py` and follow the prompts.
+2. Configure your environment for model training.
 
    ```
     $ python wml_setup.py <...-training-config.yaml> 
      ...
    ```
    
-1. After setup has completed, define the displayed environment variables. These variables provide the model training script with access credentials for your Watson Machine Learning service and Cloud Object Storage service. 
+3. Once setup is completed, define the displayed environment variables.
 
    MacOS example:
 
    ```
-   $ export ML_INSTANCE=...
-   $ export ML_APIKEY=...
-   $ export ML_ENV=...
    $ export AWS_ACCESS_KEY_ID=...
    $ export AWS_SECRET_ACCESS_KEY=...
+   $ export ML_INSTANCE=...
+   $ export ML_USERNAME=...
+   $ export ML_PASSWORD=...
+   $ export ML_ENV=...
    ```
    
-   > The training script `wml_train.py` requires these environment variables. If they are not set, model training cannot be started.
+   Also, note the YAML configuration.
+   
+   ```
+       ------------------------------------------------------------------------------
+       NEW YAML CONFIGURATION VALUES
+       ------------------------------------------------------------------------------
+       input_bucket  : resnet50-input
+       local directory  : .../inp_obj
+       result bucket  : resnet50-output
+       compute  : k80x4
+   ```
 
 ### Train the Model Using Watson Machine Learning
+
+#### Purpose
+
+- To initiate training in Watson Machine Learning.
+- To download model and log files.
+- Place downloaded files in parent directory for the docker to pick up.
+
+#### Commands
 
 1. Verify that the training preparation steps complete successfully. Replace `<model-name.yaml>` with your configuration file.
 
@@ -85,13 +126,12 @@ The `wml_setup.py` script prepares your local environment and your IBM Cloud res
      ...
    ```
 
-   If preparation completed successfully:
+   If prepartion completed successfully:
 
-    - The required environment variables are defined.
-    - Training data is present in the Cloud Object Storage bucket that Watson Machine Learning will access to train the model.
-    - The model training code is packaged in a ZIP file named `<model-name>-model-building-code.zip` that Watson Machine Learning uses to train the model.
+    - Training data is present in the Cloud Object Storage bucket that WML will access during model training.
+    - Model training code is packaged `<model-name>-model-building-code.zip`
 
-1. Start model training.
+2. Start model training.
 
    ```
    $ python wml_train.py <...-training-config.yaml> package
@@ -108,17 +148,15 @@ The `wml_setup.py` script prepares your local environment and your IBM Cloud res
     ...
    ```
    
-    > Take note of the training id.
+   > Note the `Training id` displayed.
 
-1. Monitor the model training progress.
+3. Monitor training progress
 
    ```
    ...
    Training status is updated every 15 seconds - (p)ending (r)unning (e)rror (c)ompleted: 
    ppppprrrrrrr...
    ```
-
-   > Training continues should your training script get disconnected (e.g. because you terminated the script or lost network connectivity). You can resume monitoring by running `python wml_train.py <...-training-config.yaml> package <training-id>`.
 
    After training has completed the training log file `training-log.txt` is downloaded along with the trained model artifacts.
 
@@ -144,14 +182,22 @@ The `wml_setup.py` script prepares your local environment and your IBM Cloud res
      trained_model/
      training-log.txt 
    ```
+ 
+   To **restart** monitoring, `python wml_train.py <...-training-config.yaml> package <training id>`.
+  
+   To **cancel** the training run, press `ctrl+C` twice.
 
-1. Return to the parent directory
+4. Return to the parent directory
 
-### Rebuild the Model-Serving Microservice
+## Rebuild the Model-Serving Microservice
 
-The model-serving microservice out of the box serves the pre-trained model which was trained on [insert_standard_dataset_here](dataset_URL). To serve the model trained on your dataset you have to rebuild the Docker image:
+Once the training run is complete, there should be a `frozen_inference_graph.pb` and `label_map.pbtxt` files in 
+$MODEL_REPO_HOME_DIR/custom_assets folder.
 
-1. [Build the Docker image](https://docs.docker.com/engine/reference/commandline/build/):
+The model-serving microservice out of the box serves the pre-trained model which was trained on COCO dataset. 
+To serve the model trained model on your dataset you have to rebuild the Docker image:
+
+1. Rebuild the Docker image
 
    ```
    $ docker build -t <max-model-name> --build-arg use_pre_trained_model=false . 
@@ -160,9 +206,8 @@ The model-serving microservice out of the box serves the pre-trained model which
    
    > If the optional parameter `use_pre_trained_model` is set to `true` or if the parameter is not defined the Docker image will be configured to serve the pre-trained model.
    
-1. Once the Docker image build completes start the microservice by [running the container](https://docs.docker.com/engine/reference/commandline/run/):
+ Once the Docker image build completes you can start the microservice as usual:
  
  ```
  $ docker run -it -p 5000:5000 <max-model-name>
- ...
  ```
