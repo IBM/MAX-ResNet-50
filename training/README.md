@@ -7,9 +7,9 @@
 
 ## Collect Data for Training
 
-Collect RGB images encoded as jpeg or png containing objects that need to be classified. Make sure
+Collect RGB images encoded as `jpeg` or `png` containing objects to be classified. Make sure
 the training images have large variations in angle, resolution, lighting and background so that they generalize 
-well with the test data. Using 100s or 1000s of images would provide better results.
+well with the test data. Use a reasonably large number if images per class to provide better results.
 
 Create folders equal to number of classes. Folder names should be same as the class names. For example if we need to
 classify dog and cat images, create two folders with names `dog` and `cat` and place `dog` and `cat` images in the 
@@ -45,8 +45,7 @@ In order to run the model training script two sets of environment variables need
 
 ##### 1. Watson Machine Learning
 
-- ML_USERNAME
-- ML_PASSWORD
+- ML_APIKEY
 - ML_ENV
 - ML_INSTANCE
 
@@ -82,15 +81,14 @@ The main menu options vary depending on which environment variables are set when
    
 3. Once setup is completed, define the displayed environment variables.
 
-   MacOS example:
+   MacOS/Linux example:
 
    ```
+   $ export ML_APIKEY=...
+   $ export ML_INSTANCE=...
+   $ export ML_ENV=...
    $ export AWS_ACCESS_KEY_ID=...
    $ export AWS_SECRET_ACCESS_KEY=...
-   $ export ML_INSTANCE=...
-   $ export ML_USERNAME=...
-   $ export ML_PASSWORD=...
-   $ export ML_ENV=...
    ```
    
    Also, note the YAML configuration.
@@ -102,7 +100,7 @@ The main menu options vary depending on which environment variables are set when
        input_bucket  : resnet50-input
        local directory  : .../inp_obj
        result bucket  : resnet50-output
-       compute  : k80x4
+       compute  : k80
    ```
 
 ### Train the Model Using Watson Machine Learning
@@ -111,7 +109,8 @@ The main menu options vary depending on which environment variables are set when
 
 - To initiate training in Watson Machine Learning.
 - To download model and log files.
-- Place downloaded files in parent directory for the docker to pick up.
+- Move the downloaded files to the parent directory so they are included in the Docker image
+
 
 #### Commands
 

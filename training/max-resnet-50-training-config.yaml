@@ -20,13 +20,13 @@ train:
       model_training_results:
             trained_model:
                   data_store: cloud_training_datastore
-                  bucket: image-class-out
+                  bucket:
             trained_model_local:
                   path: ../custom_assets/
       data_source:
             training_data:
                   data_store: cloud_training_datastore
-                  bucket: image-class-inp
+                  bucket:
                   path:
             training_data_local:
                   path: sample_training_data/
@@ -35,7 +35,7 @@ train:
       execution:
             command: ./train-max-model.sh
             compute_configuration:
-                  name: k80
+                  name: k80x2
 
 process:
 -   name: training_process

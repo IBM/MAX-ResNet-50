@@ -85,22 +85,10 @@ echo "Installing prerequisite packages ..."
 pip install -r training_requirements.txt
 
 # ---------------------------------------------------------------
-# Perform model training tasks
+# Perform training tasks
 # ---------------------------------------------------------------
 
-# Important: Trained model artifacts must be stored in ${RESULT_DIR}/model
-# Make sure the directory exists
-mkdir -p ${RESULT_DIR}/model
-
-echo "# ************************************************************"
-echo "# Training model ..."
-echo "# ************************************************************"
-
-# IBM TODO: Specify the training command; the cwd contains the files from 
-#           the training_code directory
-# Example: "python3 train-dcgan.py --dataset ${DATA_DIR}/aligned --epoch 20"
-# start training and capture return code
-TRAINING_CMD="python Image_classification_main.py"
+TRAINING_CMD="./training_command.sh"
 
 # display training command
 echo "Running training command \"$TRAINING_CMD\""
@@ -108,37 +96,11 @@ echo "Running training command \"$TRAINING_CMD\""
 # run training command
 $TRAINING_CMD
 
-# capture return code
-RETURN_CODE=$?
-if [ $RETURN_CODE -gt 0 ]; then
-  # the training script returned an error; exit with TRAINING_FAILED_RETURN_CODE
-  echo "Error: Training run exited with status code $RETURN_CODE"
-  exit $TRAINING_FAILED_RETURN_CODE
-fi
-
 echo "Training completed. Output is stored in $RESULT_DIR."
-
-# ---------------------------------------------------------------
-# IBM TODO:
-# Add post processing code as necessary; for example
-#  - patch the TensorFlow checkpoint file (if applicable)
-#  - convert the trained model into other formats
-#  - ... 
-# ---------------------------------------------------------------
 
 echo "# ************************************************************"
 echo "# Post processing ..."
 echo "# ************************************************************"
-
-# according to WML coding guidelines the trained model should be 
-# saved in ${RESULT_DIR}/model
-cd ${RESULT_DIR}/model
-
-# ---------------------------------------------------------------
-# Prepare for packaging
-# (1) create the staging directory structure
-# (2) copy the trained model artifacts
-# ---------------------------------------------------------------
 
 cd ${RESULT_DIR}
 
@@ -146,8 +108,6 @@ BASE_STAGING_DIR=${RESULT_DIR}/output
 # subdirectory where trained model artifacts will be stored
 TRAINING_STAGING_DIR=${BASE_STAGING_DIR}/trained_model
 
-#
-# 1. make the directories
 #
 mkdir -p $TRAINING_STAGING_DIR
 
