@@ -23,7 +23,7 @@ echo "# ************************************************************"
 echo "# Training model ..."
 echo "# ************************************************************"
 
-python image_classification_main.py --output=${NUM_CLASSES}
+python image_classification.py --output=${NUM_CLASSES}
 
 # capture return code
 RETURN_CODE=$?
