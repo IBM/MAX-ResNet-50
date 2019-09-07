@@ -33,9 +33,14 @@ COPY . /workspace
 # check file integrity
 # RUN md5sum -c md5sums.txt
 
-RUN if [ "$use_pre_trained_model" = "false" ] ; then \
+RUN if [ "$use_pre_trained_model" = "true" ] ; then \
+      # validate downloaded pre-trained model assets
+      md5sum -c md5sums.txt ; \
+    else \
       # rename the directory that contains the custom-trained model artifacts
-      mv /workspace/custom_assets/* /workspace/assets; \
+      if [ -d "./custom_assets/" ] ; then \
+        rm -rf ./assets && ln -s ./custom_assets ./assets ; \
+      fi \
     fi
 
 EXPOSE 5000
