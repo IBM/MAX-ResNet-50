@@ -28,7 +28,7 @@ def test_swagger():
 
     json = r.json()
     assert 'swagger' in json
-    assert json.get('info') and json.get('info').get('title') == 'MAX Object Detector'
+    assert json.get('info') and json.get('info').get('title') == 'MAX Image Classifier - ResNet 50'
 
 
 def test_metadata():
