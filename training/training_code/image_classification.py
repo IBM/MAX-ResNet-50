@@ -1,6 +1,6 @@
 import json
 import os
-import argparse
+#import argparse
 # keras layers
 from keras.layers import Dense, GlobalAveragePooling2D
 # keras applications
@@ -17,9 +17,9 @@ from keras.backend import clear_session
 import tensorflow as tf
 from keras import backend as K
 
-parser = argparse.ArgumentParser()
-parser.add_argument('--output', required=True)
-args = parser.parse_args()
+#parser = argparse.ArgumentParser()
+#parser.add_argument('--output', required=True)
+#args = parser.parse_args()
 
 with open('param.json') as config_file:
     param_data = json.load(config_file)
@@ -32,24 +32,15 @@ def base_model_fn(model_name):
     return model_name(weights='imagenet', include_top=False)
 
 
-def build_model(base_model):
+def build_model(base_model, num_classes):
     x = base_model.output
     x = GlobalAveragePooling2D(name='Avg_pool_1')(x)
     x = Dense(1024, activation='relu', name='dense_one')(x)
     x = Dense(1024, activation='relu', name='dense_two')(x)
     x = Dense(512, activation='relu', name='dense_three')(x)
-    x = Dense(int(args.output), activation='softmax', name='main_output')(x)
+    x = Dense(num_classes, activation='softmax', name='main_output')(x)
     return x
 
-
-clear_session()
-base_model = base_model_fn(ResNet50)
-final_model = build_model(base_model)
-
-model = Model(inputs=base_model.input, outputs=final_model)
-
-for layer in base_model.layers:
-    layer.trainable = False
 
 train_datagen = ImageDataGenerator(preprocessing_function=preprocess_input)
 #
@@ -67,6 +58,17 @@ for i in range(len(label_map)):
 
 with open(os.path.join(result_dir, 'model/class_index.json'), 'w') as f:
     json.dump(label_dict, f)
+
+num_classes = len(label_dict.keys())
+
+clear_session()
+base_model = base_model_fn(ResNet50)
+final_model = build_model(base_model)
+
+model = Model(inputs=base_model.input, outputs=final_model)
+
+for layer in base_model.layers:
+    layer.trainable = False
 
 # compile model
 model.compile(optimizer=param_data['optimizer'],
