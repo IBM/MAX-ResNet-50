@@ -1,6 +1,6 @@
 import json
 import os
-#import argparse
+# import argparse
 # keras layers
 from keras.layers import Dense, GlobalAveragePooling2D
 # keras applications
@@ -17,9 +17,9 @@ from keras.backend import clear_session
 import tensorflow as tf
 from keras import backend as K
 
-#parser = argparse.ArgumentParser()
-#parser.add_argument('--output', required=True)
-#args = parser.parse_args()
+# parser = argparse.ArgumentParser()
+# parser.add_argument('--output', required=True)
+# args = parser.parse_args()
 
 with open('param.json') as config_file:
     param_data = json.load(config_file)
