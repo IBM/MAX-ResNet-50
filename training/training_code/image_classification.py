@@ -3,15 +3,13 @@ import os
 import argparse
 # keras layers
 from keras.layers import Dense, GlobalAveragePooling2D
-from keras.layers import Input
 # keras applications
 from keras.applications import ResNet50
 from keras.applications.mobilenet import preprocess_input
 # keras preprocessing
-from keras.preprocessing import image
 from keras.preprocessing.image import ImageDataGenerator
 # keras optimizers
-from keras.optimizers import Adam
+from keras.optimizers import Adam  # noqa
 # keras functions
 from keras.models import Model
 from keras.backend import clear_session
