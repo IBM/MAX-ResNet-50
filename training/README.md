@@ -14,7 +14,7 @@ well with the test data. Use a reasonably large number if images per class to pr
 Create folders equal to number of classes. Folder names should be same as the class names. For example if we need to
 classify dog and cat images, create two folders with names `dog` and `cat` and place `dog` and `cat` images in the 
 respective folders.
-
+Take a look at the folder layout of `/sample_training_data` as an example.
 ## Train the Model
 
 - [Install Local Prerequisites](#install-local-prerequisites)
