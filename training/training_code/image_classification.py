@@ -1,6 +1,5 @@
 import json
 import os
-# import argparse
 # keras layers
 from keras.layers import Dense, GlobalAveragePooling2D
 # keras applications
@@ -17,9 +16,6 @@ from keras.backend import clear_session
 import tensorflow as tf
 from keras import backend as K
 
-# parser = argparse.ArgumentParser()
-# parser.add_argument('--output', required=True)
-# args = parser.parse_args()
 
 with open('param.json') as config_file:
     param_data = json.load(config_file)
@@ -63,7 +59,7 @@ num_classes = len(label_dict.keys())
 
 clear_session()
 base_model = base_model_fn(ResNet50)
-final_model = build_model(base_model)
+final_model = build_model(base_model, num_classes)
 
 model = Model(inputs=base_model.input, outputs=final_model)
 
