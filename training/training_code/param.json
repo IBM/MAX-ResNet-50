@@ -1,0 +1,8 @@
+{
+  "optimizer": "Adam",
+  "loss": "categorical_crossentropy",
+  "metrics": {"0": "accuracy"},
+  "batch_size": 32,
+  "class_mode": "categorical",
+  "num_epochs": 5
+}
