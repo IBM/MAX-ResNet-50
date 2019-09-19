@@ -4,7 +4,6 @@
 - [Train the Model](#train-the-model)
 - [Rebuild the Model-Serving Microservice](#rebuild-the-model-serving-microservice)
 
-
 ## Collect Data for Training
 
 Collect RGB images encoded as `jpeg` or `png` containing objects to be classified. Make sure
@@ -15,7 +14,11 @@ Create folders equal to number of classes. Folder names should be same as the cl
 classify dog and cat images, create two folders with names `dog` and `cat` and place `dog` and `cat` images in the 
 respective folders.
 Take a look at the folder layout of `/sample_training_data` as an example.
+
 ## Train the Model
+
+[Training script](training_code/image_classification.py) provided here is the basic extension of the ResNet50 model. 
+More examples can be found [here](https://keras.io/applications/).
 
 - [Install Local Prerequisites](#install-local-prerequisites)
 - [Run the Setup Script](#run-the-setup-script)
@@ -64,18 +67,18 @@ The main menu options vary depending on which environment variables are set when
 
 #### Steps
 
-1. Locate the training configuration file. It is named `...-training-config.yaml`.
+1. Locate the training configuration file. It is named `max-resnet-50-training-config.yaml`.
 
    ```
 
    $ ls *.yaml
-     <...-training-config.yaml> 
+     max-resnet-50-training-config.yaml
    ```
 
 2. Configure your environment for model training.
 
    ```
-    $ python wml_setup.py <...-training-config.yaml> 
+    $ python wml_setup.py max-resnet-50-training-config.yaml 
      ...
    ```
    
@@ -114,10 +117,10 @@ The main menu options vary depending on which environment variables are set when
 
 #### Commands
 
-1. Verify that the training preparation steps complete successfully. Replace `<model-name.yaml>` with your configuration file.
+1. Verify that the training preparation steps complete successfully.
 
    ```
-    $ python wml_train.py <...-training-config.yaml> prepare
+    $ python wml_train.py max-resnet-50-training-config.yaml prepare
      ...
      # --------------------------------------------------------
      # Checking environment variables ...
@@ -133,7 +136,7 @@ The main menu options vary depending on which environment variables are set when
 2. Start model training.
 
    ```
-   $ python wml_train.py <...-training-config.yaml> package
+   $ python wml_train.py max-resnet-50-training-config.yaml package
     ...
     # --------------------------------------------------------
     # Starting model training ...
@@ -182,7 +185,7 @@ The main menu options vary depending on which environment variables are set when
      training-log.txt 
    ```
  
-   To **restart** monitoring, `python wml_train.py <...-training-config.yaml> package <training id>`.
+   To **restart** monitoring, `python wml_train.py max-resnet-50-training-config.yaml package <training id>`.
   
    To **cancel** the training run, press `ctrl+C` twice.
 
