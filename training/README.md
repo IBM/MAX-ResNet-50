@@ -1,6 +1,3 @@
----
-### 4) Replace `[insert_standard_dataset_name_here](dataset_URL)`
----
 ## Train the Model with Your Own Data
 
 This document provides instructions to train the model on Watson Machine Learning, an offering of IBM Cloud. The instructions in this document assume that you already have an IBM Cloud account. If not, please create an [IBM Cloud](https://ibm.biz/Bdz2XM) account. 
@@ -53,7 +50,6 @@ To perform model training, you need access to a Watson Machine Learning service 
 1. Locate the training configuration file. It is named `max-resnet-50-training-config.yaml`.
 
    ```
-
    $ ls *.yaml
      max-resnet-50-training-config.yaml
    ```
