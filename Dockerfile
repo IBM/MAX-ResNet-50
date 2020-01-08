@@ -16,7 +16,7 @@
 
 FROM codait/max-base:v1.1.3
 
-ARG model_bucket=https://max-assets-prod.s3.us-south.cloud-object-storage.appdomain.cloud/max-resnet50/1.0.0
+ARG model_bucket=https://max.cdn.appdomain.cloud/max-resnet50/1.0.0
 ARG model_file=assets.tar.gz
 ARG use_pre_trained_model=true
 
@@ -30,12 +30,9 @@ RUN pip install -r requirements.txt
 
 COPY . /workspace
 
-# check file integrity
-# RUN md5sum -c md5sums.txt
-
 RUN if [ "$use_pre_trained_model" = "true" ] ; then \
       # validate downloaded pre-trained model assets
-      md5sum -c md5sums.txt ; \
+      sha512sum -c sha512sums.txt ; \
     else \
       # rename the directory that contains the custom-trained model artifacts
       if [ -d "./custom_assets/" ] ; then \
