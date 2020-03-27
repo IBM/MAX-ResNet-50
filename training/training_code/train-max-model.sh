@@ -96,6 +96,15 @@ echo "Running training command \"$TRAINING_CMD\""
 # run training command
 $TRAINING_CMD
 
+RETURN_CODE=$?
+
+echo "Return code from training command: ${RETURN_CODE}"
+if [ $RETURN_CODE -gt 0 ]; then
+  # the training script returned an error; exit with TRAINING_FAILED_RETURN_CODE
+  echo "Error: Training run exited with status code $RETURN_CODE"
+  exit $TRAINING_FAILED_RETURN_CODE
+fi
+
 echo "Training completed. Output is stored in $RESULT_DIR."
 
 echo "# ************************************************************"
