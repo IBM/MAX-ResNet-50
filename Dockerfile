@@ -16,7 +16,7 @@
 
 FROM codait/max-base:v1.3.2
 
-ARG model_bucket=https://max.cdn.appdomain.cloud/max-resnet50/1.0.0
+ARG model_bucket=https://max-cdn.cdn.appdomain.cloud/max-resnet50/1.0.0
 ARG model_file=assets.tar.gz
 ARG use_pre_trained_model=true
 
