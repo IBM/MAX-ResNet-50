@@ -27,6 +27,6 @@ spec:
     spec:
       containers:
       - name: max-resnet-50
-        image: codait/max-resnet-50:latest
+        image: quay.io/codait/max-resnet-50:latest
         ports:
         - containerPort: 5000
