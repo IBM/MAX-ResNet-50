@@ -70,7 +70,7 @@ class ModelWrapper(MAXModelWrapper):
             abort(400, 'Invalid file type/extension. Please provide a valid image (supported formats: JPEG, PNG, TIFF).')
 
     def _pre_process(self, image):
-        image = image.resize(self.MODEL_INPUT_IMG_SIZE)
+        image = image.resize(self.MODEL_INPUT_IMG_SIZE, resample=Image.NEAREST)
         image = img_to_array(image)
         image = np.expand_dims(image, axis=0)
         return imagenet_utils.preprocess_input(image, mode=self.MODEL_MODE)
